@@ -18,7 +18,7 @@ class ViewController: UIViewController
     
     private(set) var flipCount = 0 {
         didSet {
-            flipCountLabel.text = "Flips : \(flipCount)"
+            flipCountLabel.text = "Flips: \(flipCount)"
         }
     }
 
