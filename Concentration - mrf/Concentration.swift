@@ -10,7 +10,18 @@ import Foundation
 
 struct Concentration
 {
+    
     private(set) var cards = [Card]()
+    
+    private(set) var flipCount = 0
+    private(set) var score = 0
+    private var seenCards: Set<Int> = []
+    
+    private struct Points {
+        static let matchBonus = 2
+        static let missMatchPenalty = 1
+    }
+
     
     private var indexOfOneAndOnlyFaceUpCard: Int? {
         get {
@@ -45,6 +56,17 @@ struct Concentration
             } else {
                 indexOfOneAndOnlyFaceUpCard = index
             }
+        }
+        flipCount += 1
+    }
+    
+    mutating func resetGame (){
+        flipCount = 0
+        score = 0
+        seenCards = []
+        for index in cards.indices  {
+            cards[index].isFaceUp = false
+            cards[index].isMatched = false
         }
     }
     
