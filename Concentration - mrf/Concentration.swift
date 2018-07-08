@@ -68,6 +68,7 @@ struct Concentration
             cards[index].isFaceUp = false
             cards[index].isMatched = false
         }
+        cards.shuffle()
     }
     
     init(numberOfPairsOfCards: Int) {
@@ -76,6 +77,18 @@ struct Concentration
             let card = Card()
             cards += [card, card]
         }
-        //TODO: Suffle the cards
+        cards.shuffle()
+    }
+}
+
+extension Array {
+    mutating func shuffle() {
+        if count < 2 { return }
+        
+        for i in indices.dropLast() {
+            let diff = distance(from: i, to: endIndex)
+            let j = index(i, offsetBy: diff.arc4random)
+            swapAt(i, j)
+        }
     }
 }
