@@ -45,19 +45,34 @@ struct Concentration
     }
     
     mutating func chooseCard(at index: Int) {
-        assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): chosed index not in the cards")
+        assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): Chosen index is out of range")
         if !cards[index].isMatched {
+                    flipCount += 1
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
                 if cards[matchIndex].identifier == cards[index].identifier {
+    // the cards match
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
-                }
+    // Increase the score
+                score += Points.matchBonus
                 cards[index].isFaceUp = true
             } else {
+    // the cards did NOT match, so penalize
+                if seenCards.contains(index) {
+                    score -= Points.missMatchPenalty
+                }
+                if seenCards.contains(matchIndex) {
+                    score -= Points.missMatchPenalty
+                }
+                seenCards.insert(index)
+                seenCards.insert(matchIndex)
+            }
+            cards[index].isFaceUp = true
+        } else {
                 indexOfOneAndOnlyFaceUpCard = index
             }
         }
-        flipCount += 1
+
     }
     
     mutating func resetGame (){
